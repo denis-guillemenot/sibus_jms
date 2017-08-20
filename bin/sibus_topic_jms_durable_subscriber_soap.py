@@ -130,8 +130,17 @@ def durable_subscriber( *argv):
   connection = factory.createConnection( was_user, was_pswd)
 
   # need to set client ID for Topic Space
-  connection.setClientID('%s' % client_id)
-  
+  # check if there is already a client ID
+  client_id_inuse = connection.getClientID()
+  # print 'client_id_inuse: %s' % client_id_inuse
+  if client_id_inuse != None:
+    # set client ID for Topic Space to the client_id in use already
+    connection.setClientID('%s' % client_id_inuse)    
+  else:
+    # set client ID for Topic Space to a new value
+    connection.setClientID('%s' % client_id)
+
+  # create session  
   session = connection.createSession( java.lang.Boolean('false'), javax.jms.Session.AUTO_ACKNOWLEDGE)
 
   # read topic without waiting any available message
@@ -144,8 +153,10 @@ def durable_subscriber( *argv):
     pass
   
   session.close()
+  connection.close()
+  
   print( "\nFinished.")
-  return 
+
   
 # =======================================================================================================================
 # for WAS 6: __name__ == "main"

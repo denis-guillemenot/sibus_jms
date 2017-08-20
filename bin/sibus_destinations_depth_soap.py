@@ -101,7 +101,8 @@ def show_depth( *argv):
       print( "  %5d messages in %s:%s %s" %( int( queue_depth), sibus_name, queue_name, jms_name))
 
   # check topic depth
-  print( "\n%s %s\n" % ( "#--- SIBus Topic(s) Depth -- [SIBus:topicspace_name (JMS JNDI)]", "-" * 30))
+  print( "\n%s %s" % ( "#--- SIBus Topic(s) Depth -- [SIBus:topic_name (JMS JNDI)]", "-" * 30))
+  print( "%s %s\n" % ( "#---   durable subscriber -- [client_id##subscriber_id]", "-" * 30))  
   sibpubpoints = AdminControl.queryNames('type=SIBPublicationPoint,*').split( lineSeparator)
   if sibpubpoints: 
     for d in sibpubpoints:
